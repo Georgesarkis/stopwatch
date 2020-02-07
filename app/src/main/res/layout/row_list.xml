@@ -31,5 +31,11 @@
         app:backgroundTint="@color/design_default_color_primary"
         app:srcCompat="@android:drawable/ic_media_play" />
 
-
+    <ImageView
+        android:clickable="true"
+        android:id="@+id/Delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:src="@android:drawable/ic_delete" />
 </LinearLayout>
