@@ -98,12 +98,13 @@ public class StopWatch {
             Seconds = (int) (UpdateTime / 1000);
 
             Minutes = Seconds / 60;
-
             Seconds = Seconds % 60;
-
+            hours = Minutes / 60;
+            Minutes = Minutes % 60;
             MilliSeconds = (int) (UpdateTime % 1000);
 
-            TextView.setText("" + Minutes + ":"
+            TextView.setText("" + hours + ":"
+                    + String.format("%02d", Minutes) + ":"
                     + String.format("%02d", Seconds) + ":"
                     + String.format("%03d", MilliSeconds));
 
