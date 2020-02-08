@@ -53,7 +53,6 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
 
         final FloatingActionButton ResetButton = listView.findViewById(R.id.ResetButton);
         final FloatingActionButton StartResumeButton = listView.findViewById(R.id.StartResumeButton);
-        ImageView deleteBtn = listView.findViewById(R.id.Delete);
 
         StopWatch StopWatch = getItem(position);
 
@@ -76,7 +75,7 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
                 ResetButton.setVisibility(View.INVISIBLE);
                 StopWatch StopWatch = getItem(position);
                 StopWatch.setStatus(com.example.stopwatchspotify.StopWatch.StopWatchStatus.STOPPED);
-                StopWatch.resetValues(TimeStampTextView);
+                StopWatch.resetValues();
             }
         });
 
@@ -98,13 +97,6 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
             }
         });
 
-        deleteBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                StopwatchList.remove(position);
-                notifyDataSetChanged();
-            }
-        });
 
         return listView;
     }

@@ -2,6 +2,7 @@ package com.example.stopwatchspotify;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setUpActivity();
         setUpStopWatchList();
         setUpFloatButton();
+        startService(new Intent(this, BackgroundService.class));
     }
 
     private void setUpActivity(){
