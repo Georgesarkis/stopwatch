@@ -1,14 +1,19 @@
 package com.example.stopwatchspotify;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.*;
 import android.os.*;
 import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
 
 public class BackgroundService extends Service {
 
     public Context context = this;
     public Handler handler = null;
     public static Runnable runnable = null;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -27,16 +32,23 @@ public class BackgroundService extends Service {
         };
 
         handler.postDelayed(runnable, 15000);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            O.createNotification(this);
+        } else {
+            PreO.createNotification(this);
+        }
     }
 
     @Override
     public void onDestroy() {
         //handler.removeCallbacks(runnable);
+        super.onDestroy();
         Toast.makeText(this, "Service stopped", Toast.LENGTH_LONG).show();
     }
-
     @Override
-    public void onStart(Intent intent, int startid) {
-        Toast.makeText(this, "Service started by user.", Toast.LENGTH_LONG).show();
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        //startForeground();
+        return START_STICKY;
     }
 }
