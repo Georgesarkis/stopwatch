@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">StopwatchSpotify</string>
+    <string name="app_name">Stopwatch</string>
     <string name="action_settings">Settings</string>
     <string name="title">Stop Watch</string>
     <string name="subtitle">stop watch for Spotify</string>
+    <string name="ServiceKilledMessage">Notification is stopped, background app will be killed</string>
+    <string name="ServiceCreatedMessage">Service created to run the app in the background!</string>
+    <string name="ServiceStoppedMessage">Service stopped the app will be stopped soon!</string>
+    <string name="ZeroTimeValue">00:00:00.000</string>
 </resources>

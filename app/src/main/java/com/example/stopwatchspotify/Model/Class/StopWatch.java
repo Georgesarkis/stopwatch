@@ -1,4 +1,4 @@
-package com.example.stopwatchspotify;
+package com.example.stopwatchspotify.Model.Class;
 
 import android.os.Handler;
 import android.os.SystemClock;
@@ -21,7 +21,6 @@ public class StopWatch {
     private long TimeBuff;
     private long MillisecondTime;
     private Handler handler;
-    private TextView TextView;
     public StopWatch(){
         this.MillisecondTime = 0;
         this.hours = 0;
@@ -70,48 +69,43 @@ public class StopWatch {
 
 
     public void runTimer(final TextView timeView){
-        this.TextView = timeView;
         if(handler == null){
             handler = new Handler();
         }
         if(this.getStatus() == StopWatchStatus.RUNNING){
             this.StartTime = SystemClock.uptimeMillis();
-            handler.postDelayed(runnable, 0);
+            handler.postDelayed(new Runnable() {
+
+                public void run() {
+
+                    MillisecondTime = SystemClock.uptimeMillis() - StartTime;
+
+                    UpdateTime = TimeBuff + MillisecondTime;
+
+                    Seconds = (int) (UpdateTime / 1000);
+
+                    Minutes = Seconds / 60;
+                    Seconds = Seconds % 60;
+                    hours = Minutes / 60;
+                    Minutes = Minutes % 60;
+                    MilliSeconds = (int) (UpdateTime % 1000);
+
+                    timeView.setText(
+                            String.format("%02d", hours)+ ":"
+                                    + String.format("%02d", Minutes) + ":"
+                                    + String.format("%02d", Seconds) + "."
+                                    + String.format("%03d", MilliSeconds));
+
+                    handler.postDelayed(this, 0);
+                }
+
+            }, 0);
         }
         else if(this.getStatus() == StopWatchStatus.PAUSED){
             TimeBuff += MillisecondTime;
-            handler.removeCallbacks(runnable);
-        }
-        else{
-            this.resetValues();
+            handler.removeCallbacksAndMessages(null);
         }
     }
-
-    public Runnable runnable = new Runnable() {
-
-        public void run() {
-
-            MillisecondTime = SystemClock.uptimeMillis() - StartTime;
-
-            UpdateTime = TimeBuff + MillisecondTime;
-
-            Seconds = (int) (UpdateTime / 1000);
-
-            Minutes = Seconds / 60;
-            Seconds = Seconds % 60;
-            hours = Minutes / 60;
-            Minutes = Minutes % 60;
-            MilliSeconds = (int) (UpdateTime % 1000);
-
-            TextView.setText("" + hours + ":"
-                    + String.format("%02d", Minutes) + ":"
-                    + String.format("%02d", Seconds) + ":"
-                    + String.format("%03d", MilliSeconds));
-
-            handler.postDelayed(this, 0);
-        }
-
-    };
 
     public void resetValues(){
         MillisecondTime = 0L ;
@@ -121,7 +115,6 @@ public class StopWatch {
         Seconds = 0 ;
         Minutes = 0 ;
         MilliSeconds = 0 ;
-        TextView.setText("0:00:00:000");
     }
 
 }

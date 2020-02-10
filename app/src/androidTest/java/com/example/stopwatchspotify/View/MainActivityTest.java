@@ -1,4 +1,4 @@
-package com.example.stopwatchspotify;
+package com.example.stopwatchspotify.View;
 
 
 import android.view.View;
@@ -10,6 +10,8 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.stopwatchspotify.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -20,19 +22,22 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest2 {
+public class MainActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void mainActivityTest2() {
+    public void mainActivityTest() {
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.StartResumeButton),
                         childAtPosition(
@@ -42,17 +47,21 @@ public class MainActivityTest2 {
         floatingActionButton.perform(click());
 
         ViewInteraction floatingActionButton2 = onView(
-                allOf(withId(R.id.StartResumeButton),
+                allOf(withId(R.id.fab),
                         childAtPosition(
-                                withParent(withId(R.id.StopWatchListView)),
+                                childAtPosition(
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
                                 2),
                         isDisplayed()));
         floatingActionButton2.perform(click());
 
         ViewInteraction floatingActionButton3 = onView(
-                allOf(withId(R.id.StartResumeButton),
+                allOf(withId(R.id.fab),
                         childAtPosition(
-                                withParent(withId(R.id.StopWatchListView)),
+                                childAtPosition(
+                                        withClassName(is("androidx.appcompat.widget.ContentFrameLayout")),
+                                        0),
                                 2),
                         isDisplayed()));
         floatingActionButton3.perform(click());
@@ -66,12 +75,46 @@ public class MainActivityTest2 {
         floatingActionButton4.perform(click());
 
         ViewInteraction floatingActionButton5 = onView(
+                allOf(withId(R.id.StartResumeButton),
+                        childAtPosition(
+                                withParent(withId(R.id.StopWatchListView)),
+                                2),
+                        isDisplayed()));
+        floatingActionButton5.perform(click());
+
+        ViewInteraction floatingActionButton6 = onView(
+                allOf(withId(R.id.StartResumeButton),
+                        childAtPosition(
+                                withParent(withId(R.id.StopWatchListView)),
+                                2),
+                        isDisplayed()));
+        floatingActionButton6.perform(click());
+
+        ViewInteraction floatingActionButton7 = onView(
+                allOf(withId(R.id.StartResumeButton),
+                        childAtPosition(
+                                withParent(withId(R.id.StopWatchListView)),
+                                2),
+                        isDisplayed()));
+        floatingActionButton7.perform(click());
+
+        ViewInteraction floatingActionButton8 = onView(
                 allOf(withId(R.id.ResetButton),
                         childAtPosition(
                                 withParent(withId(R.id.StopWatchListView)),
                                 1),
                         isDisplayed()));
-        floatingActionButton5.perform(click());
+        floatingActionButton8.perform(click());
+
+        ViewInteraction actionMenuItemView = onView(
+                allOf(withId(R.id.action_favorite), withContentDescription("User"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.my_toolbar),
+                                        2),
+                                0),
+                        isDisplayed()));
+        actionMenuItemView.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

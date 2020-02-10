@@ -1,19 +1,16 @@
-package com.example.stopwatchspotify;
+package com.example.stopwatchspotify.View.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import com.example.stopwatchspotify.Model.Class.StopWatch;
+import com.example.stopwatchspotify.R;
+import com.example.stopwatchspotify.View.MainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -50,17 +47,18 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
             listView = LayoutInflater.from(mContext).inflate(R.layout.row_list, parent, false);
 
         final TextView TimeStampTextView = (TextView)listView.findViewById(R.id.TimeStampTextView);
+        TimeStampTextView.setText(mContext.getString(R.string.ZeroTimeValue));
 
         final FloatingActionButton ResetButton = listView.findViewById(R.id.ResetButton);
         final FloatingActionButton StartResumeButton = listView.findViewById(R.id.StartResumeButton);
 
         StopWatch StopWatch = getItem(position);
 
-        if(StopWatch.getStatus() == com.example.stopwatchspotify.StopWatch.StopWatchStatus.RUNNING){
+        if(StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.RUNNING){
             ResetButton.setVisibility(View.INVISIBLE);
             StartResumeButton.setImageResource(android.R.drawable.ic_media_pause);
         }
-        else if(StopWatch.getStatus() == com.example.stopwatchspotify.StopWatch.StopWatchStatus.STOPPED){
+        else if(StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.STOPPED){
             ResetButton.setVisibility(View.INVISIBLE);
             StartResumeButton.setImageResource(android.R.drawable.ic_media_play);
         }
@@ -74,8 +72,9 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
             public void onClick(View view) {
                 ResetButton.setVisibility(View.INVISIBLE);
                 StopWatch StopWatch = getItem(position);
-                StopWatch.setStatus(com.example.stopwatchspotify.StopWatch.StopWatchStatus.STOPPED);
+                StopWatch.setStatus(com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.STOPPED);
                 StopWatch.resetValues();
+                TimeStampTextView.setText(mContext.getString(R.string.ZeroTimeValue));
             }
         });
 
@@ -83,13 +82,13 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
             @Override
             public void onClick(View view) {
                 StopWatch StopWatch = getItem(position);
-                if(StopWatch.getStatus() == com.example.stopwatchspotify.StopWatch.StopWatchStatus.RUNNING){
-                    StopWatch.setStatus(com.example.stopwatchspotify.StopWatch.StopWatchStatus.PAUSED);
+                if(StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.RUNNING){
+                    StopWatch.setStatus(com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.PAUSED);
                     StopWatch.runTimer(TimeStampTextView);
                     ResetButton.setVisibility(View.VISIBLE);
                     StartResumeButton.setImageResource(android.R.drawable.ic_media_play);
                 }else{
-                    StopWatch.setStatus(com.example.stopwatchspotify.StopWatch.StopWatchStatus.RUNNING);
+                    StopWatch.setStatus(com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.RUNNING);
                     StopWatch.runTimer(TimeStampTextView);
                     ResetButton.setVisibility(View.INVISIBLE);
                     StartResumeButton.setImageResource(android.R.drawable.ic_media_pause);
