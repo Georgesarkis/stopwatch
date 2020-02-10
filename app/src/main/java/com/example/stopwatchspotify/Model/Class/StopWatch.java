@@ -8,8 +8,8 @@ public class StopWatch {
     public enum StopWatchStatus {
         RUNNING,
         PAUSED,
-        STOPPED
-
+        STOPPED,
+        NEWLYFETCHED
     }
     private int hours;
     private int Minutes;
@@ -20,7 +20,6 @@ public class StopWatch {
     private long UpdateTime;
     private long TimeBuff;
     private long MillisecondTime;
-    private long TimeDistroyed;
     public StopWatch(){
         this.MillisecondTime = 0;
         this.hours = 0;
@@ -57,12 +56,6 @@ public class StopWatch {
     public void setStatus(StopWatchStatus status){
         this.Status = status;
     }
-    public void setTimeDistroyed(long timeDistroyed){
-        this.TimeDistroyed = timeDistroyed;
-    }
-    public long getTimeDistroyed(){
-        return this.TimeDistroyed;
-    }
     public long getStartTime(){
         return this.StartTime;
     }
@@ -73,9 +66,12 @@ public class StopWatch {
 
 
     public void runTimer(final TextView timeView, final Handler handler){
-        if(this.getStatus() == StopWatchStatus.RUNNING){
-            if(this.StartTime == 0){
+        if(this.getStatus() == StopWatchStatus.RUNNING ||this.getStatus() == StopWatchStatus.NEWLYFETCHED ){
+            if(this.getStatus() == StopWatchStatus.RUNNING){
                 this.StartTime = SystemClock.uptimeMillis();
+
+            }else{
+                this.setStatus(StopWatchStatus.RUNNING);
             }
             handler.postDelayed(new Runnable() {
 
@@ -114,7 +110,6 @@ public class StopWatch {
         Seconds = 0 ;
         Minutes = 0 ;
         MilliSeconds = 0;
-        TimeDistroyed = 0;
     }
 
     public void setTextToTextView(TextView textView){

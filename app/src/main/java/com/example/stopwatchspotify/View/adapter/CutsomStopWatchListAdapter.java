@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.stopwatchspotify.Model.Class.StopWatch;
@@ -55,10 +56,11 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
 
         final FloatingActionButton ResetButton = listView.findViewById(R.id.ResetButton);
         final FloatingActionButton StartResumeButton = listView.findViewById(R.id.StartResumeButton);
+        ImageView deleteBtn = convertView.findViewById(R.id.Delete);
 
         StopWatch StopWatch = getItem(position);
 
-        if(StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.RUNNING){
+        if(StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.RUNNING || StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.NEWLYFETCHED ){
             ResetButton.setVisibility(View.INVISIBLE);
             StopWatch.runTimer(TimeStampTextView,BaseViewModel.handlerList.get(position));
             StartResumeButton.setImageResource(android.R.drawable.ic_media_pause);
@@ -69,7 +71,7 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
         }
         else{
             ResetButton.setVisibility(View.VISIBLE);
-            StopWatch.runTimer(TimeStampTextView,BaseViewModel.handlerList.get(position));
+            //StopWatch.runTimer(TimeStampTextView,BaseViewModel.handlerList.get(position));
             StopWatch.setTextToTextView(TimeStampTextView);
             StartResumeButton.setImageResource(android.R.drawable.ic_media_play);
         }
@@ -102,6 +104,7 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
                 }
             }
         });
+
 
 
         return listView;

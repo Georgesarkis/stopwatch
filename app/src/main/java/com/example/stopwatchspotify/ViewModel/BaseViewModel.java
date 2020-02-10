@@ -52,14 +52,13 @@ public class BaseViewModel {
         String json = sharedPreferences.getString("StopWatchList", null);
         Type type = new TypeToken<ArrayList<StopWatch>>() {
         }.getType();
-        List<StopWatch> TempStopWatchList = gson.fromJson(json, type);
+        StopWatchList = gson.fromJson(json, type);
 
-        if (TempStopWatchList == null) {
+        if (StopWatchList == null) {
             StopWatchList = new ArrayList<StopWatch>();
             handlerList = new ArrayList<Handler>();
             addNewStopWatch();
         }else{
-            StopWatchList = TempStopWatchList;
             handlerList = new ArrayList<Handler>();
             for(int i = 0; i< StopWatchList.size();i++){
                 handlerList.add(new Handler());
@@ -69,7 +68,16 @@ public class BaseViewModel {
     }
 
     public void onDestroy() {
+        prepareDataToSave();
         saveData();
+    }
+
+    private void prepareDataToSave(){
+        for(int i = 0 ; i< StopWatchList.size() ; i++){
+            if(StopWatchList.get(i).getStatus() == StopWatch.StopWatchStatus.RUNNING){
+                StopWatchList.get(i).setStatus(StopWatch.StopWatchStatus.NEWLYFETCHED);
+            }
+        }
     }
 
 }
