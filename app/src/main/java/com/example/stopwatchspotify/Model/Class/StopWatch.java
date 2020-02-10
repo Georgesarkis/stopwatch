@@ -20,7 +20,7 @@ public class StopWatch {
     private long UpdateTime;
     private long TimeBuff;
     private long MillisecondTime;
-    private Handler handler;
+    private long TimeDistroyed;
     public StopWatch(){
         this.MillisecondTime = 0;
         this.hours = 0;
@@ -57,23 +57,26 @@ public class StopWatch {
     public void setStatus(StopWatchStatus status){
         this.Status = status;
     }
-
+    public void setTimeDistroyed(long timeDistroyed){
+        this.TimeDistroyed = timeDistroyed;
+    }
+    public long getTimeDistroyed(){
+        return this.TimeDistroyed;
+    }
     public long getStartTime(){
         return this.StartTime;
     }
-
     public void setStartTime(long StartTime){
         this.StartTime = StartTime;
     }
 
 
 
-    public void runTimer(final TextView timeView){
-        if(handler == null){
-            handler = new Handler();
-        }
+    public void runTimer(final TextView timeView, final Handler handler){
         if(this.getStatus() == StopWatchStatus.RUNNING){
-            this.StartTime = SystemClock.uptimeMillis();
+            if(this.StartTime == 0){
+                this.StartTime = SystemClock.uptimeMillis();
+            }
             handler.postDelayed(new Runnable() {
 
                 public void run() {
@@ -90,11 +93,7 @@ public class StopWatch {
                     Minutes = Minutes % 60;
                     MilliSeconds = (int) (UpdateTime % 1000);
 
-                    timeView.setText(
-                            String.format("%02d", hours)+ ":"
-                                    + String.format("%02d", Minutes) + ":"
-                                    + String.format("%02d", Seconds) + "."
-                                    + String.format("%03d", MilliSeconds));
+                    setTextToTextView(timeView);
 
                     handler.postDelayed(this, 0);
                 }
@@ -114,7 +113,16 @@ public class StopWatch {
         UpdateTime = 0L ;
         Seconds = 0 ;
         Minutes = 0 ;
-        MilliSeconds = 0 ;
+        MilliSeconds = 0;
+        TimeDistroyed = 0;
+    }
+
+    public void setTextToTextView(TextView textView){
+        textView.setText(
+                String.format("%02d", hours)+ ":"
+                        + String.format("%02d", Minutes) + ":"
+                        + String.format("%02d", Seconds) + "."
+                        + String.format("%03d", MilliSeconds));
     }
 
 }

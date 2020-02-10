@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         moveToStartedState();
     }
 
+    @Override
+    protected void onDestroy() {
+        baseViewModel.onDestroy();
+        super.onDestroy();
+    }
 
     @TargetApi(Build.VERSION_CODES.O)
     private void moveToStartedState() {
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpStopWatchList(){
         baseViewModel.init();
-        adapter = new CutsomStopWatchListAdapter<StopWatch>(context,activity, (ArrayList<StopWatch>) baseViewModel.StopWatchList);
+        adapter = new CutsomStopWatchListAdapter<StopWatch>(context,activity, (ArrayList<StopWatch>) baseViewModel.StopWatchList,baseViewModel);
         listView = (ListView)findViewById(R.id.StopWatchListView);
         listView.setAdapter(adapter);
     }
@@ -89,10 +94,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_favorite) {
-            //Toast.makeText(MainActivity.this,getString(R.string.ServiceKilledMessage), Toast.LENGTH_LONG).show();
             stopService(new Intent(this,ForegroundService.class));
             finish();
-            System.exit(0);
             return true;
         }
 
