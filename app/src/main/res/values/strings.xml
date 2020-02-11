@@ -7,4 +7,6 @@
     <string name="ServiceCreatedMessage">Service created to run the app in the background!</string>
     <string name="ServiceStoppedMessage">Service stopped the app will be stopped soon!</string>
     <string name="ZeroTimeValue">00:00:00.000</string>
+    <string name="StopwatchIsDeletedMessage">Stopwatch is deleted</string>
+    <string name="DeleteOnlyTheLastMessage">You can only delete last stopwatch!</string>
 </resources>

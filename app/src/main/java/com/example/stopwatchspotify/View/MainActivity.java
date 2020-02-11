@@ -21,7 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
-
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCenter.start(getApplication(), "6e4d28ac-b75c-4c27-80ca-45c5c1912674",Analytics.class, Crashes.class);
         baseViewModel = new BaseViewModel(this);
         setUpActivity();
         setUpStopWatchList();
