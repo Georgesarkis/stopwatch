@@ -114,6 +114,9 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
                 }
             }
         });
+        //TODO: delete button creates problem in updating the listview, for now disable it
+        deleteBtn.setVisibility(View.INVISIBLE);
+        /*
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -134,5 +137,6 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
 
             }
         });
+        */
     }
 }
