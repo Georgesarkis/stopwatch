@@ -14,6 +14,7 @@ import com.example.stopwatchspotify.R;
 import com.example.stopwatchspotify.View.MainActivity;
 import com.example.stopwatchspotify.ViewModel.BaseViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,7 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
 
     @SuppressLint({"RestrictedApi", "ResourceAsColor"})
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View listView = convertView;
-
+    public View getView(final int position, View listView, ViewGroup parent) {
         if (listView != null){
            return listView;
         }
@@ -56,9 +55,19 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
 
         final FloatingActionButton ResetButton = listView.findViewById(R.id.ResetButton);
         final FloatingActionButton StartResumeButton = listView.findViewById(R.id.StartResumeButton);
+        ImageView deleteBtn = listView.findViewById(R.id.Delete);
 
         StopWatch StopWatch = getItem(position);
 
+        setUpButtons(position,StartResumeButton,ResetButton, TimeStampTextView,StopWatch);
+
+        setUpOnClickListeners(position,ResetButton,StartResumeButton,deleteBtn,TimeStampTextView,StopWatch);
+
+        return listView;
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void setUpButtons(int position, FloatingActionButton StartResumeButton, FloatingActionButton ResetButton, TextView TimeStampTextView, StopWatch StopWatch){
         if(StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.RUNNING || StopWatch.getStatus() == com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.NEWLYFETCHED ){
             ResetButton.setVisibility(View.INVISIBLE);
             StopWatch.runTimer(TimeStampTextView,BaseViewModel.handlerList.get(position));
@@ -70,11 +79,13 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
         }
         else{
             ResetButton.setVisibility(View.VISIBLE);
-            //StopWatch.runTimer(TimeStampTextView,BaseViewModel.handlerList.get(position));
             StopWatch.setTextToTextView(TimeStampTextView);
             StartResumeButton.setImageResource(android.R.drawable.ic_media_play);
         }
+    }
 
+    @SuppressLint("RestrictedApi")
+    private void setUpOnClickListeners(final int position, final FloatingActionButton ResetButton, final FloatingActionButton StartResumeButton, ImageView deleteBtn, final TextView TimeStampTextView, final StopWatch StopWatch){
         ResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,11 +114,25 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
                 }
             }
         });
+        deleteBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(position == StopwatchList.size()-1){
+                    Snackbar.make(v, mContext.getString(R.string.StopwatchIsDeletedMessage), Snackbar.LENGTH_LONG).show();
+                    StopWatch.setStatus(com.example.stopwatchspotify.Model.Class.StopWatch.StopWatchStatus.STOPPED);
+                    StartResumeButton.setImageResource(android.R.drawable.ic_media_play);
+                    ResetButton.setVisibility(View.INVISIBLE);
+                    TimeStampTextView.setText(mContext.getString(R.string.ZeroTimeValue));
+                    StopwatchList.get(position).resetValues();
+                    BaseViewModel.handlerList.get(position).removeCallbacksAndMessages(null);
+                    StopwatchList.remove(position);
+                    BaseViewModel.handlerList.remove(position);
+                    notifyDataSetChanged();
+                }else{
+                    Snackbar.make(v, mContext.getString(R.string.DeleteOnlyTheLastMessage), Snackbar.LENGTH_LONG).show();
+                }
 
-
-
-        return listView;
+            }
+        });
     }
-
-
 }
