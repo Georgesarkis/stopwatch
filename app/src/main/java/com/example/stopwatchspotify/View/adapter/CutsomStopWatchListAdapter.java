@@ -56,6 +56,7 @@ public class CutsomStopWatchListAdapter<S> extends ArrayAdapter<StopWatch> {
         final FloatingActionButton ResetButton = listView.findViewById(R.id.ResetButton);
         final FloatingActionButton StartResumeButton = listView.findViewById(R.id.StartResumeButton);
         ImageView deleteBtn = listView.findViewById(R.id.Delete);
+
         StopWatch StopWatch = getItem(position);
 
         setUpButtons(position,StartResumeButton,ResetButton, TimeStampTextView,StopWatch);
